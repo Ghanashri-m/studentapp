@@ -7,15 +7,12 @@ import {
     Hidden,
     Card,
     CardActions,
-    MenuItem,
     CardActionArea,
     CardContent,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import Select from '@material-ui/core/Select';
-// import {timeFromNow} from './utils';
 import Navbar from './navbar';
 
 // CSS styles
@@ -61,12 +58,49 @@ const useStyles = makeStyles(theme=>({
 
 const Tickets = () => {
     const classes = useStyles();
-    // const [tickets, setTickets] = useState([]);
+    const url = 'https://60bf454597295a0017c42497.mockapi.io/tickets';
+    const [tickets, setTickets] = useState([]);
 
-    // useEffect(() => {
-    //     getTickets();
-    // }, [])
+    useEffect(() => {
+        getTickets();
+    }, [])
 
+    const getTickets = async () => {
+        const resp = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
+        }).then((response) => {
+            return response.json()
+        });
+        setTickets(resp)
+    }
+
+    const handleCreate = async (ticketData) => {
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(ticketData),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
+        }).then((response) => {
+            console.log(response)
+        });
+        getTickets();
+    }
+
+    const handleDelete = async (id) => {
+        fetch(url + "/" + id, {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
+        }).then((response) => {
+            console.log(response)
+        });
+        getTickets();
+    }
 
     return (
         <Box component='div' className={classes.mainContainer}>
@@ -75,16 +109,18 @@ const Tickets = () => {
                 <Typography gutterBottom variant='h5' className={classes.ticketsHeader}>
                     All Tickets
                 </Typography>
-                <Grid item xs={12} sm={12} md={12} key={0}>
+                {tickets.map((ticket) => {
+                    return (
+                        <Grid item xs={12} sm={12} md={12} key={0}>
                     <Card className={classes.cardContainer}>
                         <Hidden mdDown>
                             <CardActionArea disableRipple style={{display: 'flex', justifyContent: 'space-between'}}>
                                 <CardContent>
-                                    <Typography gutterBottom variant='h6' id={1}>
-                                        Ticket <span style={{color: 'tomato'}}> #1</span>
+                                    <Typography gutterBottom variant='h6' id={ticket.id}>
+                                        {ticket.title} <span style={{color: 'tomato'}}> #{ticket.id}</span>
                                     </Typography>
                                     <Typography variant='body2' style={{color: '#6f7c87'}} component='p'>
-                                        Description
+                                        {ticket.description}
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
@@ -112,11 +148,11 @@ const Tickets = () => {
                         <Hidden mdUp>
                             <CardActionArea disableRipple>
                                 <CardContent>
-                                    <Typography gutterBottom variant='h6' id={1}>
-                                        Ticket<span style={{color: 'tomato'}}> #1</span>
+                                    <Typography gutterBottom variant='h6' id={ticket.id}>
+                                        {ticket.title}<span style={{color: 'tomato'}}> #{ticket.id}</span>
                                     </Typography>
                                     <Typography variant='body2' style={{color: '#6f7c87'}} component='p'>
-                                        Description
+                                        {ticket.description}
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
@@ -143,6 +179,8 @@ const Tickets = () => {
                         </Hidden>
                     </Card>
                 </Grid>
+                    )
+                })}
             </Grid>
         </Box>
     )
