@@ -41,11 +41,11 @@ const Header = () => {
                 <Avatar className={classes.avatar} src={avatar} alt="Student Query Portal" />
             </Grid>
             <Typography className={classes.title} variant='h4'>
-                <Typed strings={['Welcome']} typeSpeed={40} />
+                <Typed strings={['Welcome to student query portal']} typeSpeed={40} />
             </Typography>
             <br />
             <Typography className={classes.subtitle} variant='h5'>
-                <Typed strings={['View Tickets', 'Edit Tickets']}
+                <Typed strings={['Create Tickets', 'View Tickets', 'Edit Tickets', 'Delete Tickets', 'View Status']}
                 backSpeed={60}
                 loop
                 typeSpeed={40} />
