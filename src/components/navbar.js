@@ -19,6 +19,7 @@ import {
     ArrowBack,
     Home
 } from '@material-ui/icons';
+import DehazeIcon from '@material-ui/icons/Dehaze';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import avatar from '../images/img_avatar2.png';
 
@@ -87,13 +88,13 @@ const Navbar = () => {
         <>
             <Box component='nav'>
                 <AppBar position='fixed' style={{background: '#222'}}>
-                    <Toolbar>
-                        <IconButton onClick={toggleSlider('right', true)}>
-                            <ArrowBack style={{color: 'tomato'}} />
-                        </IconButton>
+                    <Toolbar style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
                         <Typography variant='h5' style={{color: 'tan'}}>
                             Student Query Portal
                         </Typography>
+                        <IconButton onClick={toggleSlider('right', true)}>
+                            <DehazeIcon style={{color: 'tomato'}} />
+                        </IconButton>
                         <MobileeRightMenuSlider open={state.right}
                             onClose={toggleSlider('right', false)}
                             anchor='right'>
